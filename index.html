@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>💖 A Special Surprise For You 💖</title>
+    <!-- Google Fonts for a romantic feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(145deg, #fce4ec 0%, #f8bbd0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 60px 60px 60px 60px;
+            box-shadow: 0 30px 60px rgba(183, 28, 28, 0.2), 0 10px 20px rgba(0,0,0,0.05);
+            padding: 40px 30px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .floating-hearts {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-style: italic;
+            color: #880e4f;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #ad1457;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #f48fb1;
+            padding-bottom: 15px;
+        }
+
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+            color: #d81b60;
+        }
+
+        .instruction {
+            color: #4a2c2c;
+            font-weight: 400;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            padding: 0 5px;
+        }
+
+        .instruction strong {
+            color: #880e4f;
+            font-weight: 600;
+        }
+
+        .date-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .date-input-group label {
+            font-weight: 600;
+            color: #6a1b3d;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .date-input-group input {
+            padding: 16px 20px;
+            border: 2px solid #f48fb1;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            background: rgba(255,255,255,0.6);
+            color: #4a2c2c;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .date-input-group input:focus {
+            border-color: #d81b60;
+            box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.15);
+            background: white;
+        }
+
+        .date-input-group input::placeholder {
+            color: #b5838d;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: #ad1457;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #f8bbd0;
+        }
+
+        .hint span {
+            font-weight: 600;
+            color: #880e4f;
+        }
+
+        .btn-unlock {
+            background: linear-gradient(135deg, #d81b60, #880e4f);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1.5px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-unlock:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(216, 27, 96, 0.4);
+        }
+
+        .btn-unlock:active {
+            transform: scale(0.97);
+        }
+
+        .error-message {
+            color: #c62828;
+            background: rgba(255, 235, 238, 0.8);
+            padding: 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: none;
+            border-left: 4px solid #c62828;
+            backdrop-filter: blur(4px);
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .success-message {
+            color: #2e7d32;
+            background: rgba(232, 245, 233, 0.9);
+            padding: 15px;
+            border-radius: 30px;
+            font-size: 1rem;
+            margin-top: 15px;
+            display: none;
+            border-left: 4px solid #43a047;
+            backdrop-filter: blur(4px);
+            font-weight: 600;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .footer-credit {
+            margin-top: 25px;
+            font-size: 0.7rem;
+            color: #8e5a6b;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-decoration {
+            color: #f06292;
+            font-size: 1.2rem;
+            margin: 0 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 40px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .floating-hearts {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="floating-hearts">💞</span>
+        <h1>My Dearest Love</h1>
+        <div class="subtitle">✦ A Little Secret Just for You ✦</div>
+
+        <span class="lock-icon">🔐</span>
+
+        <p class="instruction">
+            To unlock this special gift, please enter the day our forever began.<br>
+            <strong>Our Anniversary Date 💕</strong>
+        </p>
+
+        <div class="date-input-group">
+            <label for="anniv-date">Enter the date (DD/MM/YYYY)</label>
+            <input type="text" id="anniv-date" placeholder="e.g. 15/08/2020" autocomplete="off" maxlength="10">
+        </div>
+
+        <div class="hint">
+            💭 Hint: It's the day we said <span>"I love you"</span> for the first time
+        </div>
+
+        <button class="btn-unlock" id="unlockBtn">
+            <span>✨</span> Open the Surprise <span>✨</span>
+        </button>
+
+        <div id="errorMsg" class="error-message">
+            ❤️ That's not quite right, my love. Try again with our special date. ❤️
+        </div>
+
+        <div id="successMsg" class="success-message">
+            💖 Correct! Now opening your surprise... 💖
+        </div>
+
+        <div class="footer-credit">
+            Made with ∞ love for you
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ============================================
+            // 1. SET YOUR ANNIVERSARY DATE HERE
+            //    Format: DD/MM/YYYY
+            // ============================================
+            const CORRECT_DATE = "12/08/2025"; // 👈 CHANGE THIS TO YOUR ACTUAL DATE!
+
+            const inputField = document.getElementById('anniv-date');
+            const unlockBtn = document.getElementById('unlockBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            // Automatically format as user types: DD/MM/YYYY
+            function formatDateInput(value) {
+                const cleaned = value.replace(/\D/g, '');
+                let formatted = '';
+                if (cleaned.length > 0) {
+                    formatted += cleaned.substring(0, 2);
+                    if (cleaned.length >= 3) {
+                        formatted += '/';
+                        formatted += cleaned.substring(2, 4);
+                    }
+                    if (cleaned.length >= 5) {
+                        formatted += '/';
+                        formatted += cleaned.substring(4, 8);
+                    }
+                }
+                return formatted;
+            }
+
+            inputField.addEventListener('input', function(e) {
+                const digitsOnly = this.value.replace(/\D/g, '');
+                const limited = digitsOnly.substring(0, 8);
+                const formatted = formatDateInput(limited);
+                this.value = formatted;
+                if (this.value.length > 10) {
+                    this.value = this.value.substring(0, 10);
+                }
+            });
+
+            inputField.addEventListener('keydown', function(e) {
+                const key = e.key;
+                const controlKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+                if (controlKeys.includes(key)) {
+                    return;
+                }
+                if (!/^[0-9/]$/.test(key)) {
+                    e.preventDefault();
+                }
+            });
+
+            function handleUnlock() {
+                const enteredDate = inputField.value.trim();
+                const normalizedEntered = enteredDate.replace(/\s/g, '');
+                const normalizedCorrect = CORRECT_DATE.replace(/\s/g, '');
+
+                // Hide previous messages
+                errorMsg.classList.remove('show');
+                successMsg.classList.remove('show');
+
+                if (normalizedEntered === normalizedCorrect) {
+                    // SUCCESS!
+                    successMsg.classList.add('show');
+                    unlockBtn.innerHTML = '💖 Unlocked! 💖';
+                    unlockBtn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
+                    unlockBtn.disabled = true;
+                    inputField.disabled = true;
+
+                    // After 2 seconds, redirect to the main page
+                    setTimeout(() => {
+                        // For now, show an alert since we haven't built the main page yet
+                        alert('🎉 SURPRISE! 🎉\n\nWelcome to your anniversary website!\n\n(We\'ll add the full surprise page next!)');
+                        // In the next step, you'll uncomment this:
+                        // window.location.href = 'main.html';
+                        
+                        // Reset for demo purposes (remove this later)
+                        unlockBtn.innerHTML = '✨ Open the Surprise ✨';
+                        unlockBtn.style.background = 'linear-gradient(135deg, #d81b60, #880e4f)';
+                        unlockBtn.disabled = false;
+                        inputField.disabled = false;
+                        successMsg.classList.remove('show');
+                        inputField.value = '';
+                    }, 2000);
+                } else {
+                    errorMsg.classList.add('show');
+                    // Shake the input
+                    inputField.style.animation = 'shake 0.4s ease-in-out';
+                    setTimeout(() => {
+                        inputField.style.animation = '';
+                    }, 400);
+                    // Clear the input after error
+                    setTimeout(() => {
+                        inputField.value = '';
+                        inputField.focus();
+                    }, 1000);
+                }
+            }
+
+            unlockBtn.addEventListener('click', handleUnlock);
+
+            inputField.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleUnlock();
+                }
+            });
+
+            // Focus on input when page loads
+            window.addEventListener('load', function() {
+                inputField.focus();
+            });
+        })();
+    </script>
+</body>
+</html>
