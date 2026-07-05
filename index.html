@@ -356,51 +356,38 @@
             });
 
             function handleUnlock() {
-                const enteredDate = inputField.value.trim();
-                const normalizedEntered = enteredDate.replace(/\s/g, '');
-                const normalizedCorrect = CORRECT_DATE.replace(/\s/g, '');
+    const enteredDate = inputField.value.trim();
+    const normalizedEntered = enteredDate.replace(/\s/g, '');
+    const normalizedCorrect = CORRECT_DATE.replace(/\s/g, '');
 
-                // Hide previous messages
-                errorMsg.classList.remove('show');
-                successMsg.classList.remove('show');
+    errorMsg.classList.remove('show');
+    successMsg.classList.remove('show');
 
-                if (normalizedEntered === normalizedCorrect) {
-                    // SUCCESS!
-                    successMsg.classList.add('show');
-                    unlockBtn.innerHTML = '💖 Unlocked! 💖';
-                    unlockBtn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
-                    unlockBtn.disabled = true;
-                    inputField.disabled = true;
+    if (normalizedEntered === normalizedCorrect) {
+        // SUCCESS!
+        successMsg.classList.add('show');
+        unlockBtn.innerHTML = '💖 Unlocked! 💖';
+        unlockBtn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
+        unlockBtn.disabled = true;
+        inputField.disabled = true;
 
-                    // After 2 seconds, redirect to the main page
-                    setTimeout(() => {
-                        // For now, show an alert since we haven't built the main page yet
-                        alert('🎉 SURPRISE! 🎉\n\nWelcome to your anniversary website!\n\n(We\'ll add the full surprise page next!)');
-                        // In the next step, you'll uncomment this:
-                        // window.location.href = 'main.html';
-                        
-                        // Reset for demo purposes (remove this later)
-                        unlockBtn.innerHTML = '✨ Open the Surprise ✨';
-                        unlockBtn.style.background = 'linear-gradient(135deg, #d81b60, #880e4f)';
-                        unlockBtn.disabled = false;
-                        inputField.disabled = false;
-                        successMsg.classList.remove('show');
-                        inputField.value = '';
-                    }, 2000);
-                } else {
-                    errorMsg.classList.add('show');
-                    // Shake the input
-                    inputField.style.animation = 'shake 0.4s ease-in-out';
-                    setTimeout(() => {
-                        inputField.style.animation = '';
-                    }, 400);
-                    // Clear the input after error
-                    setTimeout(() => {
-                        inputField.value = '';
-                        inputField.focus();
-                    }, 1000);
-                }
-            }
+        // ✅ FIXED: Redirect to gallery.html after 1.5 seconds
+        setTimeout(() => {
+            window.location.href = 'proposal.html';
+        }, 1500);
+        
+    } else {
+        errorMsg.classList.add('show');
+        inputField.style.animation = 'shake 0.4s ease-in-out';
+        setTimeout(() => {
+            inputField.style.animation = '';
+        }, 400);
+        setTimeout(() => {
+            inputField.value = '';
+            inputField.focus();
+        }, 1000);
+    }
+}
 
             unlockBtn.addEventListener('click', handleUnlock);
 
